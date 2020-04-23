@@ -46,8 +46,12 @@ extern void save()
 		}
 	}
 	fclose(fp);
-	for (int i=0;i<strlen(password);i++)
-		key[i]=(char)randomString[i]^password[i];
+	for (i=0;i<strlen(password);i++)
+	{
+		char temp=(char)randomString[i]^password[i];
+		printf("%c",(char)randomString[i]^password[i] );
+		key[i]=temp;
+	}
 	key[i]='\0';
 	puts(key);
 	FILE *p;
@@ -99,6 +103,7 @@ extern void open()
 				break;
 		}
 	}
+	printf("%s\n",key);
 	for (i=0;i<strlen(password);i++)
 		output[i]=(char)key[i]^randomString[i];
 	output[i]='\0';
