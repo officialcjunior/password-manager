@@ -8,7 +8,7 @@ int main()
 	puts("Welcome to cjunior's password manager");
 	do
 	{
-		puts("1. Save a new password\n2. Open a saved password\n3.Exit");
+		puts("1. Save a new password\n2. Open a saved password\n3. Exit");
 		scanf("%d",&choice);
 		switch(choice)
 		{
