@@ -1,13 +1,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 #include <stdlib.h>
 
-char baseStr[40], reference[40];
-char encrypted[40], key[40], decrypted[40];
+char baseStr[40], reference[40], encrypted[40], key[40], decrypted[40];
 
-void keygen(char *key, int n)
+void key_generator(char *key, int n)
 {
 	srand((unsigned int)(time(NULL)));
 	int index = 0;
@@ -22,7 +20,7 @@ void keygen(char *key, int n)
 }
 
 
-void encryptDecrypt(char *input, char *output, char *key) 
+void cipher(char *input, char *output, char *key) 
 {
 	int i;
 	for(i = 0; i < strlen(input); i++) 
@@ -33,18 +31,18 @@ void encryptDecrypt(char *input, char *output, char *key)
 }
 
 
-void save()
+void save_password()
 {	
 	puts("Enter your reference");
 	scanf("%s", &reference);
 	puts("Enter your password");
 	scanf("%s", &baseStr);  //basestr is the password
 
-	keygen(key,strlen(baseStr));
+	key_generator(key,strlen(baseStr));
 
-	encryptDecrypt(baseStr, encrypted, key);
+	cipher(baseStr, encrypted, key);
 
-	printf("reference: %s key:%s encrypted:%s \n",reference,key, encrypted );
+	//printf("reference: %s key:%s encrypted:%s \n",reference,key, encrypted );
 
 	FILE *fp;
 	fp=fopen("vault.txt","a");
@@ -56,12 +54,11 @@ void save()
 	}
 	fclose(fp);
 
-	printf("Encrypted:%s", encrypted);
-
+	puts("Your password has been encrypted and saved");
 }
 
 
-void open ()
+void open_password ()
 {
 	char inputreference[40];
 	puts("Enter reference word");
@@ -80,28 +77,57 @@ void open ()
 				break;
 		}
 	}
-	printf("reference: %s key:%s encrypted:%s \n",reference, key, encrypted );
+	//printf("reference: %s key:%s encrypted:%s \n",reference, key, encrypted );
 
-	encryptDecrypt(encrypted, decrypted, key); //output is at decrypted
+	cipher(encrypted, decrypted, key); //output is at decrypted
 
-	printf("Decrypted:%s\n", decrypted);
+	printf("Decrypted password:%s\n", decrypted);
 }
 
-int main () {
+void display_references ()
+{
+	FILE *fp;
+	fp=fopen("vault.txt","r");
+	if (fp == NULL)
+		puts("File failed to open");
+	else
+	{
+		puts("The references are");
+		while (!feof(fp))
+		{	
+			fscanf(fp,"%s %s %s \n", &reference, &encrypted, &key);
+			puts(reference);
+		}
+	}		
+}
+
+erase_vault ()
+{
+	if (remove("vault.txt") == 0) 
+      printf("Password vault deleted successfully"); 
+    else
+      printf("Unable to delete the vault"); 
+
+}
+
+int main () 
+{
 
 	int choice;
-	puts("Welcome to the password manager");
+	puts("Welcome to the password manager\n Enter your choice");
 	do
 	{
-		puts("\n1. Save a new password\n2. Open a saved password\n3. Exit");
+		puts("\n1. Save a new password\n2. Open a saved password\n3. Display all the references\n4. Erase the vault\n5. Exit the password manager");
 		scanf("%d",&choice);
 		switch(choice)
 		{
-			case 1:save();break;
-			case 2:open();break;
+			case 1:save_password();break;
+			case 2:open_password();break;
+			case 3:display_references();break;
+			case 4:erase_vault();break;
 			default: puts("Enter a valid choice");break;
 		}
 	}
-	while (choice!=3);
+	while (choice!=5);
 
 }
