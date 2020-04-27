@@ -1,5 +1,7 @@
 # password-manager
 
+A simple password manager which uses XOR Cipher, written in C
+
 ## Installation 
 
 ```
