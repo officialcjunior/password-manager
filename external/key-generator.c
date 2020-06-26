@@ -1,9 +1,6 @@
-
 /* 
 	File: key-generator.c
-*/
 
-/* 
 	With the help of rand() from stdlib.h, a random character from the character array is taken
 	is repeated n times to create a random string of length n.
 */

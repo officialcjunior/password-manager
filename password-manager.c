@@ -1,5 +1,7 @@
 /* 
 	File: password-manager.c
+
+	Source file of the password-manager.
 */
 
 
@@ -29,6 +31,7 @@ int main ()
 			case 4:erase_vault();break;
 			default: puts("Enter a valid choice");break;
 		}
+		
 	}
 	while (choice!=5);
 
@@ -56,9 +59,9 @@ void cipher(char *input, char *output, char *key)
 void save_password()
 {	
 	puts("Enter your reference");
-	scanf("%s", &reference);
+	scanf("%s", reference);
 	puts("Enter your password");
-	scanf("%s", &password);  //basestr is the password
+	scanf("%s", password);
 
 	key_generator(key,strlen(password));
 
@@ -81,7 +84,7 @@ void save_password()
 }
 
 /*
-	After promting the user to enter the reference, password vault is opened
+	After prompting the user to enter the reference, password vault is opened
 	and the references are compared.
 	When found, the encrypted string and the key is passed to cipher() for
 	decrypting
@@ -91,7 +94,7 @@ void open_password ()
 {
 	char input_reference[40];
 	puts("Enter reference word \n");
-	scanf("%s", &input_reference);
+	scanf("%s", input_reference);
 
 	FILE *fp;
 	fp=fopen("password-vault/vault.txt","r");
@@ -101,7 +104,7 @@ void open_password ()
 	{
 		for (int i=0;i<40;i++)
 		{	
-			fscanf(fp,"%s %s %s \n", &reference, &encrypted, &key);
+			fscanf(fp,"%s %s %s \n", reference, encrypted, key);
 			if (strcmp(reference,input_reference)==0)			
 				break;
 		}
@@ -128,7 +131,7 @@ void display_references ()
 	{
 		while (!feof(fp))
 		{	
-			fscanf(fp,"%s %s %s \n", &reference, &encrypted, &key);
+			fscanf(fp,"%s %s %s \n", reference, encrypted, key);
 			puts(reference);
 		}
 	}		
@@ -140,8 +143,7 @@ void display_references ()
 void erase_vault ()
 {
 	if (remove("password-vault/vault.txt") == 0) 
-      printf("Password vault deleted successfully"); 
+    	printf("Password vault deleted successfully"); 
     else
-      printf("Unable to delete the vault"); 
-
+    	printf("Unable to delete the vault"); 
 }
